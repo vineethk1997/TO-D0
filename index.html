@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+<body>
+<div id="popup" class="add-task-popup popup-hidden">
+    <div class="popup-container">
+        <label for="text" style="color: red;">Add new list</label>
+        <input type="text" placeholder="Add New List" id="text" style="margin-top: 15px;text-align: center; width:200px;">
+        <button id="button-one" onclick="addNewTaskToList()">Add  </button>
+        <button id="button-two" onclick="hidePopUp()">Close</button>
+    </div>
+</div>
+<div id="subtask-popup" class="add-task-popup popup-hidden">
+    <div class="popup-container">
+        <label for="text" style="color: red;">Add new sub task</label>
+        <input type="text" placeholder="Add new sub task" id="subtask-text" style="margin-top: 15px;text-align: center; width:200px;">
+        <button id="button-one" onclick="addNewSubTask()">Add  </button>
+        <button id="button-two" onclick="hideSubTaskPopUp()">Close</button>
+    </div>
+</div>
+<div class="first-container">
+    <div class="heading first-left">
+        <span style="font-weight: bolder">Tasks</span>
+        <span style="font-weight: 30">Lists</span>
+
+    </div>
+    <div class="heading first-right">
+        <i class="fas fa-plus-circle add-list-button" onclick="showPopUp()"></i>
+        <span class="card-body">Add List</span>
+    </div>
+    
+</div>
+<div id="parent-container"></div>
+<input type="hidden" id="task-id" value=""/>
+    
+        
+    <script src="./index.js"></script>
+    <script>
+    localStorage.getItem("tasks")
+    if(!localStorage.getItem("tasks")) {
+        loadResource();
+    } else {
+        const taskList = JSON.parse(localStorage.getItem("tasks"));
+        taskList.map(task => {
+        console.log(task)
+        addtaskonscreen(task.id)
+            
+        task.subTask.forEach((subTask) => {
+        updateTaskCardUI(task.id, subTask.id)
+        if(subTask.done) {
+            processDoneTasks(subTask.id)
+                }
+            })
+        });
+    }
+    </script>
+</body>
+</html>
